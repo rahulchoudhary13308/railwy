@@ -181,7 +181,7 @@ Response format:
 
 ---
 
-## Task 7: Project detail and delete endpoints [size: medium]
+## Task 7: Project detail and delete endpoints [x] [size: medium]
 
 **Files:** src/app/api/projects/[id]/route.ts, src/services/project.ts
 
