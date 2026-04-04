@@ -7,18 +7,19 @@ interface StagePipelineProps {
 }
 
 export function StagePipeline({ currentStage }: StagePipelineProps) {
+  const isError = currentStage === 'error'
   const currentIndex = STAGES.indexOf(currentStage as typeof STAGES[number])
 
   return (
     <div className="flex items-center gap-1">
       {STAGES.map((stage, i) => {
-        const isComplete = i < currentIndex
-        const isCurrent = i === currentIndex
-        const isFuture = i > currentIndex
+        const isComplete = currentIndex >= 0 && i < currentIndex
+        const isCurrent = currentIndex >= 0 && i === currentIndex
+        const isFuture = currentIndex < 0 || i > currentIndex
 
         let bg = 'bg-gray-700 text-gray-500'
         if (isComplete) bg = 'bg-green-700 text-green-100'
-        if (isCurrent) bg = 'bg-blue-600 text-white'
+        if (isCurrent) bg = isError ? 'bg-red-600 text-white' : 'bg-blue-600 text-white'
 
         return (
           <div key={stage} className="flex items-center">
@@ -34,6 +35,13 @@ export function StagePipeline({ currentStage }: StagePipelineProps) {
           </div>
         )
       })}
+      {isError && (
+        <div className="ml-2 flex items-center">
+          <div className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
+            error
+          </div>
+        </div>
+      )}
     </div>
   )
 }
