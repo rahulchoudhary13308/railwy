@@ -296,7 +296,7 @@ Data extraction:
 
 ---
 
-## Task 11: Force refresh endpoint [size: small]
+## Task 11: Force refresh endpoint [x] [size: small]
 
 **Files:** src/app/api/projects/[id]/refresh/route.ts
 
@@ -319,7 +319,7 @@ Error handling:
 
 ---
 
-## Task 12: Aggregate stats endpoint [size: small]
+## Task 12: Aggregate stats endpoint [x] [size: small]
 
 **Files:** src/app/api/stats/route.ts
 
