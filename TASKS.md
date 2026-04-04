@@ -62,7 +62,7 @@ Edge cases:
 
 ---
 
-## Task 3: Project repository layer [size: medium]
+## Task 3: Project repository layer [x] [size: medium]
 
 **Files:** src/repositories/project.ts, tests/unit/project-repository.test.ts
 
