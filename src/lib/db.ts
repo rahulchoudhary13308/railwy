@@ -18,7 +18,7 @@ export async function migrate(): Promise<void> {
       CREATE TABLE IF NOT EXISTS projects (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
-        description TEXT DEFAULT '',
+        description VARCHAR(1000) NOT NULL DEFAULT '',
         repo_url VARCHAR(500) NOT NULL UNIQUE,
         branch VARCHAR(255) NOT NULL,
         stage VARCHAR(50) NOT NULL DEFAULT 'pending',

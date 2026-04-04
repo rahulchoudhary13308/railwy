@@ -34,12 +34,18 @@ export async function POST(
     await pollProject(project)
 
     const updated = await repo.findById(id)
+    if (!updated) {
+      return NextResponse.json(
+        { error: { code: 'NOT_FOUND', message: 'Project not found after refresh' } },
+        { status: 404 }
+      )
+    }
     return NextResponse.json({
       data: {
-        id: updated!.id,
-        stage: updated!.stage,
-        percentage: updated!.percentage,
-        lastPolledAt: updated!.lastPolledAt,
+        id: updated.id,
+        stage: updated.stage,
+        percentage: updated.percentage,
+        lastPolledAt: updated.lastPolledAt,
       },
     })
   } catch {

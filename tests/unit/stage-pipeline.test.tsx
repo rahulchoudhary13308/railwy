@@ -46,4 +46,14 @@ describe('StagePipeline', () => {
     const checkmarks = screen.getAllByText('✓')
     expect(checkmarks.length).toBe(4) // all except complete itself
   })
+
+  it('"error" stage shows error badge and dims all pipeline stages', () => {
+    render(<StagePipeline currentStage="error" />)
+    expect(screen.getByText('error')).toBeInTheDocument()
+    const errorBadge = screen.getByText('error').closest('div')!
+    expect(errorBadge.className).toContain('bg-red-600')
+    // All normal stages should be dimmed (gray)
+    const pending = screen.getByText('pending').closest('div')!
+    expect(pending.className).toContain('bg-gray-700')
+  })
 })
