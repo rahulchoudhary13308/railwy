@@ -135,7 +135,7 @@ Edge cases:
 
 ---
 
-## Task 5: Smoke test checkpoint 1 [size: small]
+## Task 5: Smoke test checkpoint 1 [x] [size: small]
 
 **Files:** tests/integration/smoke.test.ts
 
