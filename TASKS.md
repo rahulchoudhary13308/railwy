@@ -275,7 +275,7 @@ Data extraction:
 
 ---
 
-## Task 10: Smoke test checkpoint 2 [size: small]
+## Task 10: Smoke test checkpoint 2 [x] [size: small]
 
 **Files:** tests/integration/smoke.test.ts (extend existing)
 

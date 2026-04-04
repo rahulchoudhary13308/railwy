@@ -34,7 +34,8 @@ vi.mock('next/server', () => ({
 }))
 
 import { GET as healthGET } from '@/app/api/health/route'
-import { POST as projectsPOST } from '@/app/api/projects/route'
+import { GET as projectsGET, POST as projectsPOST } from '@/app/api/projects/route'
+import { GET as projectGET, DELETE as projectDELETE } from '@/app/api/projects/[id]/route'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -155,5 +156,63 @@ describe('Smoke test checkpoint 1 (Tasks 1-4)', () => {
       makeRequest({ repoUrl: 'https://github.com/user/task-api' })
     )
     expect(dupRes.status).toBe(409)
+  })
+})
+
+// ─── Smoke test: Tasks 6-9 ───────────────────────────────────────────────────
+
+describe('Smoke test checkpoint 2 (Tasks 6-9)', () => {
+  beforeEach(() => {
+    mocks.mockExecute.mockReset()
+  })
+
+  it('GET /api/projects returns registered project in list', async () => {
+    mocks.mockExecute.mockResolvedValueOnce([[makeProjectRow()], []])
+    const res = await projectsGET()
+    const body = await res.json()
+    expect(res.status).toBe(200)
+    expect(body.data).toHaveLength(1)
+    expect(body.data[0].name).toBe('task-api')
+  })
+
+  it('GET /api/projects/[id] returns full detail with all fields', async () => {
+    mocks.mockExecute.mockResolvedValueOnce([[makeProjectRow({ status_json: '{"stage":"building"}' })], []])
+    const res = await projectGET(new Request('http://localhost'), { params: { id: '1' } })
+    const body = await res.json()
+    expect(res.status).toBe(200)
+    expect(body.data.id).toBe(1)
+    expect(body.data.repoUrl).toBe('https://github.com/user/task-api')
+  })
+
+  it('DELETE /api/projects/[id] removes project', async () => {
+    mocks.mockExecute.mockResolvedValueOnce([{ affectedRows: 1 }, []])
+    const res = await projectDELETE(new Request('http://localhost'), { params: { id: '1' } })
+    const body = await res.json()
+    expect(res.status).toBe(200)
+    expect(body.data.message).toBe('Project removed successfully')
+  })
+
+  it('GET /api/projects after delete returns empty list', async () => {
+    mocks.mockExecute.mockResolvedValueOnce([[], []])
+    const res = await projectsGET()
+    const body = await res.json()
+    expect(body.data).toEqual([])
+  })
+
+  it('entire flow completes without errors', async () => {
+    // List
+    mocks.mockExecute.mockResolvedValueOnce([[makeProjectRow()], []])
+    const listRes = await projectsGET()
+    expect(listRes.status).toBe(200)
+
+    // Detail
+    mocks.mockExecute.mockResolvedValueOnce([[makeProjectRow()], []])
+    const detailRes = await projectGET(new Request('http://localhost'), { params: { id: '1' } })
+    expect(detailRes.status).toBe(200)
+
+    // Delete
+    mocks.mockExecute.mockResolvedValueOnce([{ affectedRows: 1 }, []])
+    const deleteRes = await projectDELETE(new Request('http://localhost'), { params: { id: '1' } })
+    expect(deleteRes.status).toBe(200)
   })
 })
