@@ -32,22 +32,22 @@ Build verification:
 
 ---
 
-## Task 2: Database setup with SQLite [size: medium]
+## Task 2: Database setup with MySQL [size: medium]
 
 **Files:** src/lib/db.ts, src/types/index.ts
 
 **Implementation:**
-- Install better-sqlite3 and @types/better-sqlite3
-- Create database connection module with configurable path via DATABASE_PATH env var
-- Create migration that creates `projects` and `poll_logs` tables per PROJECT.md schema
-- Auto-run migrations on first connection
+- Install mysql2
+- Create database connection pool module using mysql2/promise with configurable connection via MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE env vars
+- Create migration function that creates `projects` and `poll_logs` tables per PROJECT.md schema (MySQL syntax: INT AUTO_INCREMENT, VARCHAR, DATETIME, JSON type)
+- Auto-run migrations on first connection (CREATE TABLE IF NOT EXISTS)
 - Export TypeScript interfaces for Project, PollLog, StatusJson, and API response types
 
 **Test cases:**
 
 Happy path:
-- Database initializes and creates tables on first connection → tables exist
-- Projects table has all columns with correct types and constraints → schema matches
+- Database connection pool initializes successfully → connection works
+- Migration creates tables with correct columns and types → schema matches
 
 Constraints:
 - repo_url column has UNIQUE constraint → inserting duplicate throws error
@@ -55,8 +55,8 @@ Constraints:
 - ON DELETE CASCADE works → deleting project removes its poll_logs
 
 Edge cases:
-- Calling db initialization twice is idempotent → no error, same tables
-- Database file is created at DATABASE_PATH location → file exists at path
+- Calling migration twice is idempotent (CREATE TABLE IF NOT EXISTS) → no error, same tables
+- Connection pool handles concurrent requests → multiple queries succeed
 
 **Acceptance:** all tests pass, /verify green
 

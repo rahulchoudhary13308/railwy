@@ -11,8 +11,9 @@ A real-time monitoring dashboard that tracks the progress of autonomous AI code 
 | Language | TypeScript | 5.x |
 | Runtime | Node.js | 20.x LTS |
 | Framework | Next.js (App Router) | 14.x |
-| Database | SQLite | 3.x |
-| SQLite Driver | better-sqlite3 | 11.x |
+| Database | MySQL | 8.x |
+| MySQL Driver | mysql2 | 3.x |
+| Connection Pool | mysql2/promise | 3.x (included) |
 | UI Framework | React | 18.x |
 | Styling | Tailwind CSS | 3.x |
 | Testing | Vitest + React Testing Library | 1.x / 14.x |
@@ -23,10 +24,10 @@ A real-time monitoring dashboard that tracks the progress of autonomous AI code 
 
 ### Do NOT Use
 
-- Prisma or any heavy ORM — use better-sqlite3 directly with raw SQL
+- Prisma or any heavy ORM — use mysql2 directly with raw SQL and connection pooling
 - Redux or Zustand — use React Server Components + SWR for data fetching
 - Docker — app runs directly on Node.js
-- External databases (Postgres, MySQL) — SQLite only
+- SQLite or other embedded databases — MySQL only
 - NextAuth or any auth library — dashboard is open access (no auth)
 - Socket.io or WebSockets — use client-side polling with SWR
 
@@ -51,7 +52,7 @@ railwy/
 │   │       └── stats/
 │   │           └── route.ts           # GET (aggregate stats)
 │   ├── lib/
-│   │   ├── db.ts               # SQLite connection + migrations
+│   │   ├── db.ts               # MySQL connection pool + migrations
 │   │   ├── github.ts           # GitHub API client
 │   │   ├── poller.ts           # Polling service logic
 │   │   └── validators.ts      # Zod schemas
@@ -98,12 +99,13 @@ railwy/
 ## Architecture Decisions
 
 1. **Next.js App Router** — Server Components reduce client JS bundle, API routes colocated with pages
-2. **SQLite with better-sqlite3** — Zero-config embedded DB, synchronous API is simpler, no external service needed
+2. **MySQL with mysql2** — Production-grade relational DB, async connection pool via mysql2/promise, deployed on Hostinger Cloud MySQL
 3. **SWR for client polling** — `refreshInterval` option provides automatic re-fetching every 30s without WebSockets
 4. **No authentication** — Dashboard is a personal dev tool, not a multi-tenant SaaS
 5. **GitHub REST API v3** — Simpler than GraphQL for reading single files from repos
 6. **Zod for validation** — Runtime type validation for API inputs and GitHub responses
 7. **Server-side polling trigger** — API route `/api/projects/[id]/refresh` triggers a fetch from GitHub; client polls the API, not GitHub directly
+8. **Hostinger Cloud deployment** — Next.js app deployed on Hostinger Cloud VPS with MySQL database hosted on Hostinger
 
 ## API Endpoints
 
@@ -327,30 +329,30 @@ Get aggregate statistics across all projects.
 
 | Field | Type | Constraints |
 |---|---|---|
-| id | INTEGER | PRIMARY KEY AUTOINCREMENT |
-| name | TEXT | NOT NULL |
+| id | INT | PRIMARY KEY AUTO_INCREMENT |
+| name | VARCHAR(255) | NOT NULL |
 | description | TEXT | DEFAULT '' |
-| repo_url | TEXT | NOT NULL, UNIQUE |
-| branch | TEXT | NOT NULL |
-| stage | TEXT | NOT NULL, DEFAULT 'pending' |
-| status_json | TEXT | DEFAULT NULL (JSON string) |
-| percentage | INTEGER | DEFAULT 0 |
-| current_task | INTEGER | DEFAULT 0 |
-| total_tasks | INTEGER | DEFAULT 0 |
-| error_count | INTEGER | DEFAULT 0 |
-| last_polled_at | TEXT | DEFAULT NULL (ISO 8601) |
-| created_at | TEXT | NOT NULL (ISO 8601) |
-| updated_at | TEXT | NOT NULL (ISO 8601) |
+| repo_url | VARCHAR(500) | NOT NULL, UNIQUE |
+| branch | VARCHAR(255) | NOT NULL |
+| stage | VARCHAR(50) | NOT NULL, DEFAULT 'pending' |
+| status_json | JSON | DEFAULT NULL |
+| percentage | INT | DEFAULT 0 |
+| current_task | INT | DEFAULT 0 |
+| total_tasks | INT | DEFAULT 0 |
+| error_count | INT | DEFAULT 0 |
+| last_polled_at | DATETIME | DEFAULT NULL |
+| created_at | DATETIME | NOT NULL, DEFAULT CURRENT_TIMESTAMP |
+| updated_at | DATETIME | NOT NULL, DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP |
 
 ### poll_logs
 
 | Field | Type | Constraints |
 |---|---|---|
-| id | INTEGER | PRIMARY KEY AUTOINCREMENT |
-| project_id | INTEGER | NOT NULL, FK → projects(id) ON DELETE CASCADE |
-| success | INTEGER | NOT NULL (0 or 1) |
+| id | INT | PRIMARY KEY AUTO_INCREMENT |
+| project_id | INT | NOT NULL, FK → projects(id) ON DELETE CASCADE |
+| success | TINYINT(1) | NOT NULL (0 or 1) |
 | error_message | TEXT | DEFAULT NULL |
-| polled_at | TEXT | NOT NULL (ISO 8601) |
+| polled_at | DATETIME | NOT NULL, DEFAULT CURRENT_TIMESTAMP |
 
 ## Business Rules
 
@@ -396,11 +398,38 @@ Get aggregate statistics across all projects.
 | 500 | Internal server error |
 | 502 | Upstream error (GitHub API) |
 
+## Deployment — Hostinger Cloud
+
+### Infrastructure
+- **App Server:** Hostinger Cloud VPS (Node.js 20.x)
+- **Database:** Hostinger MySQL 8.x (managed)
+- **Process Manager:** PM2 for running Next.js in production
+- **Build:** `npm run build` produces standalone Next.js output
+
+### Deploy Steps
+1. SSH into Hostinger VPS
+2. Clone repo, install dependencies: `npm ci --production`
+3. Set environment variables (MySQL connection, GitHub token)
+4. Build: `npm run build`
+5. Start with PM2: `pm2 start npm --name "dashboard" -- start`
+6. Configure Nginx reverse proxy to port 3000
+
+### next.config.js Production Settings
+```javascript
+module.exports = {
+  output: 'standalone',  // Self-contained build for VPS deployment
+}
+```
+
 ## Environment Variables
 
 | Variable | Description | Example |
 |---|---|---|
-| DATABASE_PATH | Path to SQLite database file | ./data/dashboard.db |
+| MYSQL_HOST | MySQL server hostname | localhost or Hostinger MySQL host |
+| MYSQL_PORT | MySQL server port | 3306 |
+| MYSQL_USER | MySQL username | dashboard_user |
+| MYSQL_PASSWORD | MySQL password | ********** |
+| MYSQL_DATABASE | MySQL database name | build_dashboard |
 | GITHUB_TOKEN | GitHub personal access token (optional, for higher rate limits) | ghp_xxxxxxxxxxxx |
 | NEXT_PUBLIC_POLL_INTERVAL | Client-side polling interval in ms | 30000 |
 | NODE_ENV | Environment | development |

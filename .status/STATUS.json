@@ -20,7 +20,7 @@
   "last_updated": "",
   "tasks": [
     { "id": 1, "name": "Project scaffold", "size": "medium", "status": "pending" },
-    { "id": 2, "name": "Database setup with SQLite", "size": "medium", "status": "pending" },
+    { "id": 2, "name": "Database setup with MySQL", "size": "medium", "status": "pending" },
     { "id": 3, "name": "Project repository layer", "size": "medium", "status": "pending" },
     { "id": 4, "name": "Register project endpoint", "size": "medium", "status": "pending" },
     { "id": 5, "name": "Smoke test checkpoint 1", "size": "small", "status": "pending" },

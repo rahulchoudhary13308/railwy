@@ -17,7 +17,7 @@
 │  - Enforce business rules       │  - Throw typed errors
 ├─────────────────────────────────┤
 │  Repositories (src/repositories/)│  Data access layer
-│  - Raw SQL queries via better-sqlite3│
+│  - Raw SQL queries via mysql2/promise│
 │  - Return typed objects         │  - No business logic
 ├─────────────────────────────────┤
 │  Lib (src/lib/)                 │  Shared utilities
