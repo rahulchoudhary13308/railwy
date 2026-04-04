@@ -155,7 +155,7 @@ Edge cases:
 
 ---
 
-## Task 6: List projects endpoint — GET /api/projects [size: small]
+## Task 6: List projects endpoint — GET /api/projects [x] [size: small]
 
 **Files:** src/app/api/projects/route.ts
 

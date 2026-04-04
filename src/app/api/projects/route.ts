@@ -5,6 +5,18 @@ import { ProjectRepository } from '@/repositories/project'
 
 const repo = new ProjectRepository()
 
+export async function GET() {
+  try {
+    const projects = await repo.findAll()
+    return NextResponse.json({ data: projects })
+  } catch {
+    return NextResponse.json(
+      { error: { code: 'INTERNAL_ERROR', message: 'Failed to fetch projects' } },
+      { status: 500 }
+    )
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body: unknown = await request.json().catch(() => null)
