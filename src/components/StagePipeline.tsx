@@ -19,7 +19,7 @@ export function StagePipeline({ currentStage }: StagePipelineProps) {
 
         let bg = 'bg-gray-700 text-gray-500'
         if (isComplete) bg = 'bg-green-700 text-green-100'
-        if (isCurrent) bg = isError ? 'bg-red-600 text-white' : 'bg-blue-600 text-white'
+        if (isCurrent) bg = 'bg-blue-600 text-white'
 
         return (
           <div key={stage} className="flex items-center">
