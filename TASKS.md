@@ -371,7 +371,7 @@ Conditional rendering:
 
 ---
 
-## Task 14: Project detail page UI [size: medium]
+## Task 14: Project detail page UI [x] [size: medium]
 
 **Files:** src/components/ProjectDetail.tsx, src/app/projects/[id]/page.tsx
 
