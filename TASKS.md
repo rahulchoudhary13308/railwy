@@ -211,7 +211,7 @@ Response format:
 
 ---
 
-## Task 8: GitHub API client [size: medium]
+## Task 8: GitHub API client [x] [size: medium]
 
 **Files:** src/lib/github.ts, src/services/github.ts
 
