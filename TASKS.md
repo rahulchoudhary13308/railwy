@@ -487,7 +487,7 @@ Edge cases:
 
 ---
 
-## Task 18: Search and filter controls [size: medium]
+## Task 18: Search and filter controls [x] [size: medium]
 
 **Files:** src/components/SearchFilter.tsx, src/app/page.tsx (update)
 
@@ -516,7 +516,7 @@ Edge cases:
 
 ---
 
-## Task 19: Register project UI flow [size: medium]
+## Task 19: Register project UI flow [x] [size: medium]
 
 **Files:** src/components/RegisterProject.tsx, src/app/page.tsx (update)
 
@@ -548,7 +548,7 @@ Edge cases:
 
 ---
 
-## Task 20: Smoke test checkpoint 4 [size: small]
+## Task 20: Smoke test checkpoint 4 [x] [size: small]
 
 **Files:** tests/integration/smoke.test.ts (extend existing)
 
