@@ -13,11 +13,11 @@ import type {
 interface ProjectRow {
   id: number
   name: string
-  description: string
+  description: string | null
   repo_url: string
   branch: string
   stage: string
-  status_json: string | null
+  status_json: string | StatusJson | null
   percentage: number
   current_task: number
   total_tasks: number
@@ -42,12 +42,14 @@ function rowToProject(row: ProjectRow): Project {
   return {
     id: row.id,
     name: row.name,
-    description: row.description,
+    description: row.description ?? '',
     repoUrl: row.repo_url,
     branch: row.branch,
     stage: row.stage,
     statusJson: row.status_json
-      ? (JSON.parse(row.status_json) as StatusJson)
+      ? (typeof row.status_json === 'string'
+        ? JSON.parse(row.status_json) as StatusJson
+        : row.status_json as StatusJson)
       : null,
     percentage: row.percentage,
     currentTask: row.current_task,
