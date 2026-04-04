@@ -17,7 +17,7 @@ interface ProjectRow {
   repo_url: string
   branch: string
   stage: string
-  status_json: string | Record<string, unknown> | null
+  status_json: string | StatusJson | null
   percentage: number
   current_task: number
   total_tasks: number
@@ -49,7 +49,7 @@ function rowToProject(row: ProjectRow): Project {
     statusJson: row.status_json
       ? (typeof row.status_json === 'string'
         ? JSON.parse(row.status_json) as StatusJson
-        : row.status_json as unknown as StatusJson)
+        : row.status_json as StatusJson)
       : null,
     percentage: row.percentage,
     currentTask: row.current_task,
