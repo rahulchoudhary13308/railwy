@@ -570,7 +570,7 @@ Edge cases:
 
 ---
 
-## Task 21: Self-review and cleanup [size: medium]
+## Task 21: Self-review and cleanup [x] [size: medium]
 
 **Files:** README.md, any files needing cleanup
 
