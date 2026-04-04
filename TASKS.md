@@ -98,7 +98,7 @@ Edge cases:
 
 ---
 
-## Task 4: Register project endpoint — POST /api/projects [size: medium]
+## Task 4: Register project endpoint — POST /api/projects [x] [size: medium]
 
 **Files:** src/lib/validators.ts, src/app/api/projects/route.ts
 
