@@ -32,7 +32,7 @@ Build verification:
 
 ---
 
-## Task 2: Database setup with MySQL [size: medium]
+## Task 2: Database setup with MySQL [x] [size: medium]
 
 **Files:** src/lib/db.ts, src/types/index.ts
 
