@@ -1,0 +1,46 @@
+{
+  "project": "railwy",
+  "description": "Build Dashboard — Autonomous Code Generation Monitor",
+  "stage": "pending",
+  "plan_review": "pending",
+  "progress": {
+    "total_tasks": 21,
+    "completed": 0,
+    "current_task": 0,
+    "current_task_name": "",
+    "current_task_status": "pending",
+    "percentage": 0
+  },
+  "time_estimate": {
+    "method": "heuristic",
+    "remaining_minutes": 0
+  },
+  "branch": "build/auto-railwy",
+  "lock": { "active": false },
+  "last_updated": "",
+  "tasks": [
+    { "id": 1, "name": "Project scaffold", "size": "medium", "status": "pending" },
+    { "id": 2, "name": "Database setup with SQLite", "size": "medium", "status": "pending" },
+    { "id": 3, "name": "Project repository layer", "size": "medium", "status": "pending" },
+    { "id": 4, "name": "Register project endpoint", "size": "medium", "status": "pending" },
+    { "id": 5, "name": "Smoke test checkpoint 1", "size": "small", "status": "pending" },
+    { "id": 6, "name": "List projects endpoint", "size": "small", "status": "pending" },
+    { "id": 7, "name": "Project detail and delete endpoints", "size": "medium", "status": "pending" },
+    { "id": 8, "name": "GitHub API client", "size": "medium", "status": "pending" },
+    { "id": 9, "name": "Polling service", "size": "medium", "status": "pending" },
+    { "id": 10, "name": "Smoke test checkpoint 2", "size": "small", "status": "pending" },
+    { "id": 11, "name": "Force refresh endpoint", "size": "small", "status": "pending" },
+    { "id": 12, "name": "Aggregate stats endpoint", "size": "small", "status": "pending" },
+    { "id": 13, "name": "Dashboard homepage UI", "size": "medium", "status": "pending" },
+    { "id": 14, "name": "Project detail page UI", "size": "medium", "status": "pending" },
+    { "id": 15, "name": "Smoke test checkpoint 3", "size": "small", "status": "pending" },
+    { "id": 16, "name": "Stage pipeline visualization", "size": "small", "status": "pending" },
+    { "id": 17, "name": "Error panel and stats bar", "size": "medium", "status": "pending" },
+    { "id": 18, "name": "Search and filter controls", "size": "medium", "status": "pending" },
+    { "id": 19, "name": "Register project UI flow", "size": "medium", "status": "pending" },
+    { "id": 20, "name": "Smoke test checkpoint 4", "size": "small", "status": "pending" },
+    { "id": 21, "name": "Self-review and cleanup", "size": "medium", "status": "pending" }
+  ],
+  "verification": {},
+  "errors": []
+}
