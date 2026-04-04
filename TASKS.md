@@ -343,7 +343,7 @@ Data accuracy:
 
 ---
 
-## Task 13: Dashboard homepage UI — project cards [size: medium]
+## Task 13: Dashboard homepage UI — project cards [x] [size: medium]
 
 **Files:** src/components/ProjectCard.tsx, src/app/page.tsx
 
