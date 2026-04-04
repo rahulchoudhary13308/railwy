@@ -13,7 +13,7 @@ import type {
 interface ProjectRow {
   id: number
   name: string
-  description: string
+  description: string | null
   repo_url: string
   branch: string
   stage: string
@@ -42,7 +42,7 @@ function rowToProject(row: ProjectRow): Project {
   return {
     id: row.id,
     name: row.name,
-    description: row.description,
+    description: row.description ?? '',
     repoUrl: row.repo_url,
     branch: row.branch,
     stage: row.stage,
