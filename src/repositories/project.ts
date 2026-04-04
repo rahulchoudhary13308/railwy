@@ -1,6 +1,7 @@
 import { pool } from '@/lib/db'
 import type {
   Project,
+  PollLog,
   CreateProjectInput,
   UpdateProjectInput,
   ProjectStats,
@@ -136,6 +137,37 @@ export class ProjectRepository {
     )
     const deleteResult = result as { affectedRows: number }
     return deleteResult.affectedRows > 0
+  }
+
+  async createPollLog(
+    projectId: number,
+    success: boolean,
+    errorMessage: string | null
+  ): Promise<void> {
+    await pool.execute(
+      `INSERT INTO poll_logs (project_id, success, error_message) VALUES (?, ?, ?)`,
+      [projectId, success ? 1 : 0, errorMessage]
+    )
+  }
+
+  async getPollLogsByProjectId(projectId: number): Promise<PollLog[]> {
+    const [rows] = await pool.execute(
+      `SELECT * FROM poll_logs WHERE project_id = ? ORDER BY polled_at DESC`,
+      [projectId]
+    )
+    return (rows as Array<{
+      id: number
+      project_id: number
+      success: number
+      error_message: string | null
+      polled_at: Date
+    }>).map((row) => ({
+      id: row.id,
+      projectId: row.project_id,
+      success: row.success === 1,
+      errorMessage: row.error_message,
+      polledAt: row.polled_at,
+    }))
   }
 
   async getStats(): Promise<ProjectStats> {

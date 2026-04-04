@@ -242,7 +242,7 @@ Error handling:
 
 ---
 
-## Task 9: Polling service [size: medium]
+## Task 9: Polling service [x] [size: medium]
 
 **Files:** src/lib/poller.ts, src/repositories/project.ts (add poll_log methods)
 
