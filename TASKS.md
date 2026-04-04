@@ -403,7 +403,7 @@ Conditional rendering:
 
 ---
 
-## Task 15: Smoke test checkpoint 3 [size: small]
+## Task 15: Smoke test checkpoint 3 [x] [size: small]
 
 **Files:** tests/integration/smoke.test.ts (extend existing)
 
@@ -424,7 +424,7 @@ Conditional rendering:
 
 ---
 
-## Task 16: Stage pipeline visualization [size: small]
+## Task 16: Stage pipeline visualization [x] [size: small]
 
 **Files:** src/components/StagePipeline.tsx
 
@@ -452,7 +452,7 @@ Conditional rendering:
 
 ---
 
-## Task 17: Error panel and stats bar [size: medium]
+## Task 17: Error panel and stats bar [x] [size: medium]
 
 **Files:** src/components/ErrorPanel.tsx, src/components/StatsBar.tsx
 
